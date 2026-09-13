@@ -1,6 +1,20 @@
+import mysql.connector
+
+conexao = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="gulugu777",
+    database="mercado_database"
+)
+
+ferramenta = conexao.cursor()
+
+ferramenta.execute("SELECT * FROM produtos")
+
+resultado = ferramenta.fetchall()
+
 opcoes = ['1', '2', '3']
 opcoes2 = ['sim', 'não', 'nao']
-produto = ['arroz', 'feijão']
 
 while True:
 
@@ -26,8 +40,7 @@ while True:
         visualizar = input ('Visualizar produtos? ').lower()
             
         if visualizar == 'sim':
-                for produtos in produto:
-                    print (produtos)
+            print (resultado)
 
         elif visualizar == 'nao' or visualizar == 'não':
             continue
@@ -35,8 +48,13 @@ while True:
         novo_produto = input ('Deseja adicionar um produto? ')
 
         if novo_produto == 'sim':
-            novo_produto = input ('Adicione o produto: ')
-            produto.append (novo_produto)
-
+            nome = input ('Adicione o nome do produto: ')
+            preco = float(input('Digite o preço: '))
+            quantidade = int(input('Digite a quantidade em estoque: '))
+            
+            ferramenta.execute ((f"Insert into produtos(nome, preco, quantidade) values ('{nome}', {preco}, {quantidade})"))
+            conexao.commit()
+            ferramenta.execute ('select * from produtos where (nome, preco, quantidade)')
+            resultado = ferramenta.fetchall()
         elif novo_produto == 'nao' or novo_produto == 'não':
             continue
