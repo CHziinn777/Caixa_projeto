@@ -10,5 +10,4 @@ create table produtos (
 select * 
 from produtos;
 
-insert into produtos (nome, preco, quantidade)
-values ('Arroz', 18.50, 34);
+insert into produtos (nome, preco, quantidade);
